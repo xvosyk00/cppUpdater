@@ -46,8 +46,7 @@ TEST(protocolTest, ClientCheckVersion){
     .WillOnce(Return(0))
     .WillOnce(Return(1));
   EXPECT_CALL(*mock, send("ok"));
-  ServerConnector serverConnector;
-  serverConnector.setConnectionMock(std::move(mock));
+  ServerConnectorStub serverConnector(std::move(mock));
   FileUpdaterMock fileUpdaterMock{};
 
   ClientCommunication(Version{0,0,1}, "localhost", fileUpdaterMock, serverConnector).checkVersion();
@@ -73,8 +72,7 @@ TEST(protocolTest, ClientUpdateDeleteFile) {
   EXPECT_CALL(*mock, receive())
     .WillOnce(Return(static_cast<int>(ProtocolUtil::fileUpdateAction::Delete)));
 
-  ServerConnector serverConnector;
-  serverConnector.setConnectionMock(std::move(mock));
+  ServerConnectorStub serverConnector(std::move(mock));
   EXPECT_CALL(fileUpdaterMock, deleteFile("file1"));
 
   ClientCommunication(Version{0,0,1}, "localhost", fileUpdaterMock, serverConnector).checkAndUpdate();
@@ -104,8 +102,7 @@ TEST(protocolTest, ClientUpdateChangeFile) {
   EXPECT_CALL(*mock, receive(_, _))
     .WillOnce([](void *buffer, int size){ strcpy(static_cast<char*>(buffer), "filecontent"); return 12; });
 
-  ServerConnector serverConnector;
-  serverConnector.setConnectionMock(std::move(mock));
+  ServerConnectorStub serverConnector(std::move(mock));
   EXPECT_CALL(fileUpdaterMock, changeFile("file1", _, 12))
     .WillOnce([](const std::string &file, const char *content, int length){ EXPECT_STREQ(content, "filecontent");});
 

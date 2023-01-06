@@ -15,6 +15,7 @@
 #include "../src/networking/ConnectionListener.hpp"
 #include "../src/ClientCommunication.hpp"
 #include "Mocks.hpp"
+#include "../src/networking/TcpServerConnector.hpp"
 
 static const int port = 5050;
 
@@ -41,7 +42,7 @@ protected:
       return ServerCommunication{*versionDb};
     }
     FileUpdaterMock fileUpdaterMock;
-    ServerConnector serverConnector;
+    TcpServerConnector serverConnector;
     std::unique_ptr<VersionDb> versionDb;
 };
 

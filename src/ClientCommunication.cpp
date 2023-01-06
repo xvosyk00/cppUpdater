@@ -5,7 +5,7 @@
 #include <iostream>
 #include <utility>
 #include "ClientCommunication.hpp"
-#include "networking/ServerConnector.hpp"
+#include "ServerConnector.hpp"
 #include "ProtocolUtil.hpp"
 
 ClientCommunication::ClientCommunication(Version version, std::string server, FileUpdater &fileUpdater, ServerConnector &serverConnector)
