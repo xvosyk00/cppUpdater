@@ -8,7 +8,7 @@
 
 #include <ostream>
 #include <istream>
-#include "networking/Connection.hpp"
+#include "Connection.hpp"
 
 class Version {
     int v1{};

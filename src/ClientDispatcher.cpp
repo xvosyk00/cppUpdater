@@ -10,7 +10,7 @@ ClientDispatcher::ClientDispatcher(ClientHandler &handler) : handler(handler), l
 
 }
 
-void ClientDispatcher::dispatch() {
+[[noreturn]] void ClientDispatcher::dispatch() {
   while(true){
     auto conn = listener.accept();
     std::thread t{[&, conn = std::move(conn)] () mutable{
@@ -19,7 +19,7 @@ void ClientDispatcher::dispatch() {
           threadNumber++;
         }
         try{
-          handler.handle(conn);
+          handler.handle(*conn);
         }catch (std::runtime_error &e){
           //log error?
         }

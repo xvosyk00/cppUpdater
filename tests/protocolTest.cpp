@@ -3,16 +3,15 @@
 //
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "../src/networking/Connection.hpp"
+#include "../src/Connection.hpp"
 #include "../src/ServerCommunication.hpp"
-#include "../src/ProtocolUtil.hpp"
 #include "../src/ClientCommunication.hpp"
-#include "../src/networking/ServerConnector.hpp"
 #include "Mocks.hpp"
+#include "../src/networking/TcpConnection.hpp"
 
-class ConnectionMock : public Connection{
+class ConnectionMock : public TcpConnection{
 public:
-    ConnectionMock() : Connection(-1) {};
+    ConnectionMock() : TcpConnection(-1) {};
     MOCK_METHOD(void, send, (int value), (override));
     MOCK_METHOD(void, send, (const std::string &value), (override));
 //    MOCK_METHOD(void, send, (const void *buffer, int size), (override));

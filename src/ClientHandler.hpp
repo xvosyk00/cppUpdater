@@ -6,7 +6,7 @@
 #define UPDATER_CLIENTHANDLER_HPP
 
 
-#include "networking/Connection.hpp"
+#include "Connection.hpp"
 
 class ClientHandler {
 public:

@@ -3,6 +3,7 @@
 //
 
 #include "ConnectionListener.hpp"
+#include "TcpConnection.hpp"
 #include <sys/socket.h>
 #include <stdexcept>
 
@@ -26,14 +27,14 @@ ConnectionListener::ConnectionListener(int port) : port(port) {
   }
 }
 
-Connection ConnectionListener::accept() {
+std::unique_ptr<Connection> ConnectionListener::accept() {
   int new_socket;
   int addrLen = sizeof(address);
   if ((new_socket = ::accept(socketFd, (struct sockaddr*)&address,
   (socklen_t*)&addrLen)) < 0) {
     throw std::runtime_error("Accept failed.");
   }
-  return Connection{new_socket};
+  return std::make_unique<TcpConnection>(new_socket);
 }
 
 ConnectionListener::~ConnectionListener() {

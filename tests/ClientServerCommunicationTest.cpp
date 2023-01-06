@@ -32,7 +32,7 @@ protected:
       auto serverCommunication = makeServerHandler(dbFile);
       std::thread t([&, serverCommunication] () mutable{
           auto conn = connectionListener.accept();
-          serverCommunication.handle(conn);
+          serverCommunication.handle(*conn);
       });
       t.detach();
     }

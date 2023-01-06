@@ -8,7 +8,7 @@
 
 #include <string>
 #include <memory>
-#include "Connection.hpp"
+#include "../Connection.hpp"
 
 class ServerConnector {
     std::unique_ptr<Connection> connMock;

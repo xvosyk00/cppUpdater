@@ -33,7 +33,7 @@ TEST(connectionTest, connectToServer){
   ConnectionListener l(port);
   auto conn = l.accept();
   char buff[50];
-  conn.receive(buff, 49);
+  conn->receive(buff, 49);
   ASSERT_STREQ(buff, msg);
   t.join();
 }
@@ -46,7 +46,7 @@ TEST(connectionTest, sendInt){
   ConnectionListener l(port);
   auto conn = l.accept();
   int v;
-  conn >> v;
+  *conn >> v;
   ASSERT_EQ(v, 2);
   t.join();
 }

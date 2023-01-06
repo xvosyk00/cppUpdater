@@ -3,6 +3,7 @@
 //
 
 #include "ServerConnector.hpp"
+#include "TcpConnection.hpp"
 #include <stdexcept>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -47,7 +48,7 @@ std::unique_ptr<Connection> ServerConnector::connect(const std::string &hostname
   if ((client_fd  = ::connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr))) < 0) {
     throw std::runtime_error("Connection Failed.");
   }
-  return std::make_unique<Connection>(sock);
+  return std::make_unique<TcpConnection>(sock);
 }
 
 void ServerConnector::setConnectionMock(std::unique_ptr<Connection> connection) {
