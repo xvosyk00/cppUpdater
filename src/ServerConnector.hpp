@@ -11,10 +11,8 @@
 #include "Connection.hpp"
 
 class ServerConnector {
-    std::unique_ptr<Connection> connMock;
 public:
-    [[nodiscard]] std::unique_ptr<Connection> connect(const std::string &hostname, int port);
-    void setConnectionMock(std::unique_ptr<Connection> connection);
+    [[nodiscard]] virtual std::unique_ptr<Connection> connect(const std::string &hostname, int port) const = 0;
 };
 
 

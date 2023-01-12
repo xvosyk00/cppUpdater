@@ -15,6 +15,7 @@
 #include "../src/networking/ConnectionListener.hpp"
 #include "../src/ClientCommunication.hpp"
 #include "Mocks.hpp"
+#include "../src/networking/TcpServerConnector.hpp"
 
 static const int port = 5050;
 
@@ -32,7 +33,7 @@ protected:
       auto serverCommunication = makeServerHandler(dbFile);
       std::thread t([&, serverCommunication] () mutable{
           auto conn = connectionListener.accept();
-          serverCommunication.handle(conn);
+          serverCommunication.handle(*conn);
       });
       t.detach();
     }
@@ -41,7 +42,7 @@ protected:
       return ServerCommunication{*versionDb};
     }
     FileUpdaterMock fileUpdaterMock;
-    ServerConnector serverConnector;
+    TcpServerConnector serverConnector;
     std::unique_ptr<VersionDb> versionDb;
 };
 

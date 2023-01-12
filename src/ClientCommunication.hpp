@@ -8,10 +8,10 @@
 #include <string>
 #include <memory>
 #include "Version.hpp"
-#include "networking/Connection.hpp"
+#include "Connection.hpp"
 #include "ProtocolUtil.hpp"
 #include "filesystem/FileUpdater.hpp"
-#include "networking/ServerConnector.hpp"
+#include "ServerConnector.hpp"
 
 struct CheckResult{
     bool success;

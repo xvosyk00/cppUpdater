@@ -1,8 +1,9 @@
 //
-// Created by pavel on 11/24/22.
+// Created by pavel on 1/6/23.
 //
 
-#include "ServerConnector.hpp"
+#include "TcpServerConnector.hpp"
+#include "TcpConnection.hpp"
 #include <stdexcept>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -29,9 +30,7 @@ void hostname_to_ip(const char *hostname , char *ip)
   throw std::runtime_error("Address not found.");
 }
 
-std::unique_ptr<Connection> ServerConnector::connect(const std::string &hostname, int port) {
-  if(connMock)
-    return std::move(connMock);
+std::unique_ptr<Connection> TcpServerConnector::connect(const std::string &hostname, int port) const {
   int sock, client_fd;
   if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
     throw std::runtime_error("Socket creation error.");
@@ -47,9 +46,5 @@ std::unique_ptr<Connection> ServerConnector::connect(const std::string &hostname
   if ((client_fd  = ::connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr))) < 0) {
     throw std::runtime_error("Connection Failed.");
   }
-  return std::make_unique<Connection>(sock);
-}
-
-void ServerConnector::setConnectionMock(std::unique_ptr<Connection> connection) {
-  connMock = std::move(connection);
+  return std::make_unique<TcpConnection>(sock);
 }

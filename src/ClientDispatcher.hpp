@@ -13,7 +13,7 @@
 class ClientDispatcher {
 public:
     explicit ClientDispatcher(ClientHandler &handler);
-    void dispatch();
+    [[noreturn]] void dispatch();
     void setMaxThreads(int maxThreads);
 private:
     int maxThreads = 10;

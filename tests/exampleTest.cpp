@@ -3,9 +3,10 @@
 //
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "../src/networking/ServerConnector.hpp"
+#include "../src/ServerConnector.hpp"
 #include "../src/networking/ConnectionListener.hpp"
 #include "../src/ClientDispatcher.hpp"
+#include "../src/networking/TcpServerConnector.hpp"
 #include <thread>
 
 using ::testing::_;
@@ -21,7 +22,7 @@ const int port = 5050;
 TEST(connectionTest, connectToServer){
   auto msg = "hello world\n";
   std::thread t([&](){
-      auto conn = ServerConnector().connect(localhost, port);
+      auto conn = TcpServerConnector().connect(localhost, port);
       conn->send(msg, strlen(msg) + 1);
   });
 //  HandlerMock m{};
@@ -33,20 +34,20 @@ TEST(connectionTest, connectToServer){
   ConnectionListener l(port);
   auto conn = l.accept();
   char buff[50];
-  conn.receive(buff, 49);
+  conn->receive(buff, 49);
   ASSERT_STREQ(buff, msg);
   t.join();
 }
 
 TEST(connectionTest, sendInt){
   std::thread t([&](){
-      auto conn = ServerConnector().connect(localhost, port);
+      auto conn = TcpServerConnector().connect(localhost, port);
       *conn << 2;
   });
   ConnectionListener l(port);
   auto conn = l.accept();
   int v;
-  conn >> v;
+  *conn >> v;
   ASSERT_EQ(v, 2);
   t.join();
 }
